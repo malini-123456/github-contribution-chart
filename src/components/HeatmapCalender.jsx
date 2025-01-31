@@ -10,10 +10,14 @@ import {
 import classNames from "classnames";
 
 const HeatmapCalendar = ({ data }) => {
+  // debugger;
+  // if (!data || data.length === 0) return null;
+  // console.log(data);
+
   const startDate = startOfYear(new Date());
   const endDate = endOfYear(new Date());
 
-  // Generate all days in the year
+  // Generate all days between startDate & endDate
   const days = eachDayOfInterval({ start: startDate, end: endDate });
 
   // Group days by week
@@ -39,13 +43,21 @@ const HeatmapCalendar = ({ data }) => {
   // Weekday labels
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+  // Convert array of objects to a map for quick lookups
+  const dataMap = data.reduce((acc, item) => {
+    acc[item.date] = item.count;
+    return acc;
+  }, {});
+
   // Define a function to get intensity based on contribution value
   const getIntensity = (date) => {
-    const value = data[format(date, "yyyy-MM-dd")] || 0;
-    if (value === 0) return "bg-gray-200";
-    if (value < 5) return "bg-green-300";
-    if (value < 10) return "bg-green-500";
-    return "bg-green-700";
+    const value = dataMap[format(date, "yyyy-MM-dd")] || 0;
+
+    if (value === 0) return "bg-gray-200"; // No contributions
+    if (value <= 3) return "bg-green-300"; // Low contributions
+    if (value <= 7) return "bg-green-500"; // Moderate contributions
+    if (value <= 11) return "bg-green-700"; // High contributions
+    return "bg-green-900"; // Very high contributions
   };
 
   return (
@@ -70,14 +82,15 @@ const HeatmapCalendar = ({ data }) => {
         </div>
 
         <div className="flex">
-          {/* Weekday Names */}
+          {/* Weekday Names  */}
+          {/* only display monday wednesday and friday */}
           <div className="mr-3 flex flex-col gap-1">
             {weekDays.map((day, index) => (
               <div
                 key={index}
                 className="flex h-4 w-4 items-center justify-center text-xs font-medium"
               >
-                {day}
+                {index % 2 === 0 ? "" : day}
               </div>
             ))}
           </div>
@@ -95,7 +108,7 @@ const HeatmapCalendar = ({ data }) => {
                         getIntensity(day),
                       )}
                       title={`${format(day, "yyyy-MM-dd")}: ${
-                        data[format(day, "yyyy-MM-dd")] || 0
+                        dataMap[format(day, "yyyy-MM-dd")] || 0
                       } contributions`} // Native tooltip
                     ></div>
                   ) : (
@@ -116,6 +129,7 @@ const HeatmapCalendar = ({ data }) => {
         <div className="mx-1 h-4 w-4 rounded bg-green-300"></div>
         <div className="mx-1 h-4 w-4 rounded bg-green-500"></div>
         <div className="mx-1 h-4 w-4 rounded bg-green-700"></div>
+        <div className="mx-1 h-4 w-4 rounded bg-green-900"></div>
         <span className="ml-2 text-sm font-medium">More</span>
       </div>
     </div>

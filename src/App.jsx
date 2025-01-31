@@ -1,57 +1,49 @@
 import { useState } from "react";
 import "./App.css";
-
 import HeatmapCalender from "./components/HeatmapCalender";
+import fetchYearlyContributions from "./components/API/api";
 
 function App() {
-  const contributionData = {
-    "2025-01-01": 5,
-    "2025-01-02": 8,
-    "2025-01-03": 3,
-    "2025-01-05": 0,
-    "2025-01-10": 12,
-    "2025-02-03": 6,
-    "2025-02-07": 4,
-    "2025-02-14": 10,
-    "2025-02-20": 9,
-    "2025-03-01": 7,
-    "2025-03-06": 11,
-    "2025-03-13": 8,
-    "2025-03-18": 5,
-    "2025-04-04": 13,
-    "2025-04-09": 2,
-    "2025-04-11": 6,
-    "2025-04-16": 4,
-    "2025-05-02": 10,
-    "2025-05-08": 3,
-    "2025-05-12": 7,
-    "2025-06-04": 5,
-    "2025-06-10": 9,
-    "2025-06-18": 8,
-    "2025-07-01": 12,
-    "2025-07-07": 6,
-    "2025-07-15": 11,
-    "2025-08-03": 4,
-    "2025-08-10": 9,
-    "2025-08-18": 7,
-    "2025-09-05": 3,
-    "2025-09-12": 5,
-    "2025-09-17": 8,
-    "2025-10-02": 12,
-    "2025-10-09": 6,
-    "2025-10-14": 10,
-    "2025-11-01": 4,
-    "2025-11-06": 8,
-    "2025-11-11": 7,
-    "2025-12-02": 5,
-    "2025-12-06": 13,
-    "2025-12-14": 9,
-  };
+  const [username, setUsername] = useState("");
+  const [contributions, setContributions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
+  const handleFetchData = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const data = await fetchYearlyContributions(username);
+      setContributions(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
-      <HeatmapCalender data={contributionData} />
-    </div>
+    <>
+      <input
+        className="border border-gray-300 p-2"
+        type="text"
+        placeholder="Enter GitHub Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <button
+        className="ml-2 cursor-pointer rounded-md bg-blue-500 p-2 text-white"
+        onClick={handleFetchData}
+        disabled={!username}
+      >
+        Fetch Contributions
+      </button>
+
+      {loading && <p>Loading...</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        <HeatmapCalender data={contributions} />
+      </div>
+    </>
   );
 }
 
