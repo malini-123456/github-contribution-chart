@@ -41,6 +41,7 @@ function App() {
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
       <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        {/* {console.log(contributions)} */}
         <HeatmapCalender data={contributions} />
       </div>
     </>

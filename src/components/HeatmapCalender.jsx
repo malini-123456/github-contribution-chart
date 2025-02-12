@@ -10,12 +10,11 @@ import {
 import classNames from "classnames";
 
 const HeatmapCalendar = ({ data }) => {
-  // debugger;
-  // if (!data || data.length === 0) return null;
-  // console.log(data);
+  if (!data || data.length === 0) return <p>No contributions found.</p>;
 
-  const startDate = startOfYear(new Date());
-  const endDate = endOfYear(new Date());
+  // Use the actual data range
+  const startDate = new Date(data[0].date);
+  const endDate = new Date(data[data.length - 1].date);
 
   // Generate all days between startDate & endDate
   const days = eachDayOfInterval({ start: startDate, end: endDate });
@@ -49,9 +48,14 @@ const HeatmapCalendar = ({ data }) => {
     return acc;
   }, {});
 
+  // console.log("Mapped Contributions Data:", dataMap);
+
   // Define a function to get intensity based on contribution value
   const getIntensity = (date) => {
-    const value = dataMap[format(date, "yyyy-MM-dd")] || 0;
+    const dateString = format(date, "yyyy-MM-dd");
+    const value = dataMap[dateString] || 0;
+
+    // console.log(`Checking Date: ${dateString}, Contributions: ${value}`);
 
     if (value === 0) return "bg-gray-200"; // No contributions
     if (value <= 3) return "bg-green-300"; // Low contributions
