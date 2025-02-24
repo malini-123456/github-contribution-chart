@@ -1,16 +1,9 @@
 import React from "react";
-import {
-  format,
-  startOfYear,
-  endOfYear,
-  eachDayOfInterval,
-  getDay,
-  getMonth,
-} from "date-fns";
+import { format, eachDayOfInterval, getDay } from "date-fns";
 import classNames from "classnames";
 
 const HeatmapCalendar = ({ data }) => {
-  if (!data || data.length === 0) return <p>No contributions found.</p>;
+  if (!data || data.length === 0) return;
 
   // Use the actual data range
   const startDate = new Date(data[0].date);
@@ -65,76 +58,75 @@ const HeatmapCalendar = ({ data }) => {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <h2 className="mb-10 text-xl font-semibold">GitHub-like Heatmap</h2>
-      {/* Heatmap */}
-      <div className="relative">
-        {/* Month Names */}
-        <div className="absolute -top-5 left-12 flex w-full justify-between">
-          {months.map((month, index) => (
-            <div
-              key={index}
-              className="text-center text-xs font-medium"
-              style={{
-                position: "absolute",
-                left: `${(month.index * 97) / days.length}%`, // Dynamically align month names
-              }}
-            >
-              {month.name}
-            </div>
-          ))}
-        </div>
-
-        <div className="flex">
-          {/* Weekday Names  */}
-          {/* only display monday wednesday and friday */}
-          <div className="mr-3 flex flex-col gap-1">
-            {weekDays.map((day, index) => (
+    <div className="flex flex-col items-start gap-2">
+      <div className="pl-2">
+        <div className="relative">
+          {/* Month Names */}
+          <div className="absolute -top-5 left-12 flex w-full justify-between text-gray-400">
+            {months.map((month, index) => (
               <div
                 key={index}
-                className="flex h-4 w-4 items-center justify-center text-xs font-medium"
+                className="text-center text-xs font-medium"
+                style={{
+                  position: "absolute",
+                  left: `${(month.index * 97) / days.length}%`, // Dynamically align month names
+                }}
               >
-                {index % 2 === 0 ? "" : day}
+                {month.name}
               </div>
             ))}
           </div>
 
-          {/* Heatmap Grid */}
-          <div className="flex gap-1">
-            {weeks.map((week, weekIndex) => (
-              <div key={weekIndex} className="flex flex-col gap-1">
-                {week.map((day, dayIndex) =>
-                  day ? (
-                    <div
-                      key={dayIndex}
-                      className={classNames(
-                        "h-4 w-4 rounded",
-                        getIntensity(day),
-                      )}
-                      title={`${format(day, "yyyy-MM-dd")}: ${
-                        dataMap[format(day, "yyyy-MM-dd")] || 0
-                      } contributions`} // Native tooltip
-                    ></div>
-                  ) : (
-                    // Empty slots for offset days
-                    <div key={dayIndex} className="h-4 w-4"></div>
-                  ),
-                )}
-              </div>
-            ))}
+          <div className="flex">
+            {/* Weekday Names  */}
+            {/* only display monday wednesday and friday */}
+            <div className="mr-3 flex flex-col gap-1 text-gray-400">
+              {weekDays.map((day, index) => (
+                <div
+                  key={index}
+                  className="flex h-4 w-4 items-center justify-center text-xs font-medium"
+                >
+                  {index % 2 === 0 ? "" : day}
+                </div>
+              ))}
+            </div>
+
+            {/* Heatmap Grid */}
+            <div className="flex gap-1">
+              {weeks.map((week, weekIndex) => (
+                <div key={weekIndex} className="flex flex-col gap-1">
+                  {week.map((day, dayIndex) =>
+                    day ? (
+                      <div
+                        key={dayIndex}
+                        className={classNames(
+                          "h-4 w-4 rounded",
+                          getIntensity(day),
+                        )}
+                        title={`${format(day, "yyyy-MM-dd")}: ${
+                          dataMap[format(day, "yyyy-MM-dd")] || 0
+                        } contributions`} // Native tooltip
+                      ></div>
+                    ) : (
+                      // Empty slots for offset days
+                      <div key={dayIndex} className="h-4 w-4"></div>
+                    ),
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-
       {/* Legend */}
-      <div className="mt-4 flex items-center">
-        <span className="mr-2 text-sm font-medium">Less</span>
-        <div className="mx-1 h-4 w-4 rounded bg-gray-200"></div>
-        <div className="mx-1 h-4 w-4 rounded bg-green-300"></div>
-        <div className="mx-1 h-4 w-4 rounded bg-green-500"></div>
-        <div className="mx-1 h-4 w-4 rounded bg-green-700"></div>
-        <div className="mx-1 h-4 w-4 rounded bg-green-900"></div>
-        <span className="ml-2 text-sm font-medium">More</span>
+      <div className="ml-auto flex items-center text-gray-400">
+        <span className="mr-1 text-xs font-medium">Less</span>
+        <div className="mx-1 h-3 w-3 rounded bg-gray-200"></div>
+        <div className="mx-1 h-3 w-3 rounded bg-green-300"></div>
+        <div className="mx-1 h-3 w-3 rounded bg-green-500"></div>
+        <div className="mx-1 h-3 w-3 rounded bg-green-700"></div>
+        <div className="mx-1 h-3 w-3 rounded bg-green-900"></div>
+        <span className="ml-1 text-xs font-medium">More</span>
       </div>
     </div>
   );
