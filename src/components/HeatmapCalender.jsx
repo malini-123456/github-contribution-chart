@@ -1,8 +1,7 @@
 import React from "react";
 import { format, eachDayOfInterval, getDay } from "date-fns";
-import classNames from "classnames";
 
-const HeatmapCalendar = ({ data }) => {
+const HeatmapCalendar = ({ data, selectedTheme }) => {
   if (!data || data.length === 0) return;
 
   // Use the actual data range
@@ -50,11 +49,11 @@ const HeatmapCalendar = ({ data }) => {
 
     // console.log(`Checking Date: ${dateString}, Contributions: ${value}`);
 
-    if (value === 0) return "bg-gray-200"; // No contributions
-    if (value <= 3) return "bg-green-300"; // Low contributions
-    if (value <= 7) return "bg-green-500"; // Moderate contributions
-    if (value <= 11) return "bg-green-700"; // High contributions
-    return "bg-green-900"; // Very high contributions
+    if (value === 0) return selectedTheme.grade0; // No contributions
+    if (value <= 3) return selectedTheme.grade1; // Low contributions
+    if (value <= 7) return selectedTheme.grade2; // Moderate contributions
+    if (value <= 11) return selectedTheme.grade3; // High contributions
+    return selectedTheme.grade4; // Very high contributions
   };
 
   return (
@@ -62,7 +61,7 @@ const HeatmapCalendar = ({ data }) => {
       <div className="pl-2">
         <div className="relative">
           {/* Month Names */}
-          <div className="absolute -top-5 left-12 flex w-full justify-between text-gray-400">
+          <div className="absolute -top-5 left-12 flex w-full justify-between text-gray-300">
             {months.map((month, index) => (
               <div
                 key={index}
@@ -80,7 +79,7 @@ const HeatmapCalendar = ({ data }) => {
           <div className="flex">
             {/* Weekday Names  */}
             {/* only display monday wednesday and friday */}
-            <div className="mr-3 flex flex-col gap-1 text-gray-400">
+            <div className="mr-3 flex flex-col gap-1 text-gray-300">
               {weekDays.map((day, index) => (
                 <div
                   key={index}
@@ -99,10 +98,8 @@ const HeatmapCalendar = ({ data }) => {
                     day ? (
                       <div
                         key={dayIndex}
-                        className={classNames(
-                          "h-4 w-4 rounded",
-                          getIntensity(day),
-                        )}
+                        className="h-4 w-4 rounded"
+                        style={{ backgroundColor: getIntensity(day) }}
                         title={`${format(day, "yyyy-MM-dd")}: ${
                           dataMap[format(day, "yyyy-MM-dd")] || 0
                         } contributions`} // Native tooltip
@@ -119,13 +116,28 @@ const HeatmapCalendar = ({ data }) => {
         </div>
       </div>
       {/* Legend */}
-      <div className="ml-auto flex items-center text-gray-400">
+      <div className="ml-auto flex items-center text-gray-300">
         <span className="mr-1 text-xs font-medium">Less</span>
-        <div className="mx-1 h-3 w-3 rounded bg-gray-200"></div>
-        <div className="mx-1 h-3 w-3 rounded bg-green-300"></div>
-        <div className="mx-1 h-3 w-3 rounded bg-green-500"></div>
-        <div className="mx-1 h-3 w-3 rounded bg-green-700"></div>
-        <div className="mx-1 h-3 w-3 rounded bg-green-900"></div>
+        <div
+          className="mx-1 h-3 w-3 rounded"
+          style={{ backgroundColor: selectedTheme.grade0 }}
+        ></div>
+        <div
+          className="mx-1 h-3 w-3 rounded"
+          style={{ backgroundColor: selectedTheme.grade1 }}
+        ></div>
+        <div
+          className="mx-1 h-3 w-3 rounded"
+          style={{ backgroundColor: selectedTheme.grade2 }}
+        ></div>
+        <div
+          className="mx-1 h-3 w-3 rounded"
+          style={{ backgroundColor: selectedTheme.grade3 }}
+        ></div>
+        <div
+          className="mx-1 h-3 w-3 rounded"
+          style={{ backgroundColor: selectedTheme.grade4 }}
+        ></div>
         <span className="ml-1 text-xs font-medium">More</span>
       </div>
     </div>

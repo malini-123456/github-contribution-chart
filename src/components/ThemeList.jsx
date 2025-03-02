@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
 function ThemeList({ theme, themeName, onChange }) {
   return (
-    <label className="flex items-center gap-2">
+    <label className="flex items-center gap-3">
       <input
         type="radio"
         name="theme"
