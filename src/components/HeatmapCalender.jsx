@@ -61,7 +61,10 @@ const HeatmapCalendar = ({ data, selectedTheme }) => {
       <div className="pl-2">
         <div className="relative">
           {/* Month Names */}
-          <div className="absolute -top-5 left-12 flex w-full justify-between text-gray-300">
+          <div
+            className="absolute -top-6 left-12 flex w-full justify-between"
+            style={{ color: selectedTheme.text }}
+          >
             {months.map((month, index) => (
               <div
                 key={index}
@@ -79,7 +82,10 @@ const HeatmapCalendar = ({ data, selectedTheme }) => {
           <div className="flex">
             {/* Weekday Names  */}
             {/* only display monday wednesday and friday */}
-            <div className="mr-3 flex flex-col gap-1 text-gray-300">
+            <div
+              className="mr-3 flex flex-col gap-1"
+              style={{ color: selectedTheme.text }}
+            >
               {weekDays.map((day, index) => (
                 <div
                   key={index}
@@ -116,7 +122,10 @@ const HeatmapCalendar = ({ data, selectedTheme }) => {
         </div>
       </div>
       {/* Legend */}
-      <div className="ml-auto flex items-center text-gray-300">
+      <div
+        className="ml-auto flex items-center"
+        style={{ color: selectedTheme.text }}
+      >
         <span className="mr-1 text-xs font-medium">Less</span>
         <div
           className="mx-1 h-3 w-3 rounded"

@@ -7,8 +7,8 @@ import { Input } from "./components/Input";
 import themes from "./components/Theme/themes";
 import loadingGif from "../src/assets/images/loading.gif";
 import logo from "../src/assets/images/logo.png";
-
 import SelectThemes from "./components/SelectTheme";
+import html2canvas from "html2canvas";
 
 function App() {
   const [username, setUsername] = useState("");
@@ -36,6 +36,28 @@ function App() {
     const selectedTheme = themes.find((theme) => theme.name === themeName);
     setSelectedTheme(selectedTheme);
   }, [themeName]);
+
+  const handleCopyToClipboard = async () => {
+    const element = document.querySelector("#canvas-container");
+    if (!element) return;
+
+    try {
+      const canvas = await html2canvas(element, {
+        backgroundColor: `${selectedTheme.background}`,
+      });
+      const blob = await new Promise((resolve) =>
+        canvas.toBlob(resolve, "image/png"),
+      );
+
+      await navigator.clipboard.write([
+        new ClipboardItem({ "image/png": blob }),
+      ]);
+      alert("Chart copied to clipboard! 📋✨");
+    } catch (error) {
+      console.error("Error copying image:", error);
+      alert("Failed to copy chart. Please try again.");
+    }
+  };
 
   return (
     <>
@@ -93,7 +115,16 @@ function App() {
           </p>
         )}
 
-        <div className="mx-auto flex max-w-screen-xl items-start justify-start overflow-x-auto pt-8 lg:justify-center">
+        <div
+          id="canvas-container"
+          className="mx-auto flex max-w-screen-xl items-start justify-start overflow-x-auto rounded-md pb-4 pt-10 lg:justify-center"
+          style={{
+            backgroundColor:
+              contributions.length != 0
+                ? selectedTheme.background
+                : "transparent",
+          }}
+        >
           <HeatmapCalender data={contributions} selectedTheme={selectedTheme} />
         </div>
       </main>
@@ -104,6 +135,7 @@ function App() {
             <button
               type="button"
               className="flex items-center rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+              onClick={handleCopyToClipboard}
             >
               🔗 Copy
             </button>

@@ -2,6 +2,8 @@ const themes = [
   {
     name: "GitHub",
     background: "#ffffff",
+    text: "#000000",
+    meta: "#666666",
     grade4: "#216e39",
     grade3: "#30a14e",
     grade2: "#40c463",
@@ -11,6 +13,8 @@ const themes = [
   {
     name: "GitHub Classic",
     background: "#ffffff",
+    text: "#000000",
+    meta: "#666666",
     grade4: "#196127",
     grade3: "#239a3b",
     grade2: "#7bc96f",
@@ -20,6 +24,8 @@ const themes = [
   {
     name: "GitHub Dark",
     background: "#101217",
+    text: "#ffffff",
+    meta: "#dddddd",
     grade4: "#27d545",
     grade3: "#10983d",
     grade2: "#00602d",
@@ -29,6 +35,8 @@ const themes = [
   {
     name: "Halloween",
     background: "#ffffff",
+    text: "#000000",
+    meta: "#666666",
     grade4: "#03001C",
     grade3: "#FE9600",
     grade2: "#FFC501",
@@ -38,6 +46,8 @@ const themes = [
   {
     name: "Teal",
     background: "#ffffff",
+    text: "#000000",
+    meta: "#666666",
     grade4: "#458B74",
     grade3: "#66CDAA",
     grade2: "#76EEC6",
@@ -47,6 +57,8 @@ const themes = [
   {
     name: "Left Pad",
     background: "#000000",
+    text: "#ffffff",
+    meta: "#999999",
     grade4: "#F6F6F6",
     grade3: "#DDDDDD",
     grade2: "#A5A5A5",
@@ -56,6 +68,8 @@ const themes = [
   {
     name: "Dracula",
     background: "#181818",
+    text: "#f8f8f2",
+    meta: "#666666",
     grade4: "#ff79c6",
     grade3: "#bd93f9",
     grade2: "#6272a4",
@@ -65,6 +79,8 @@ const themes = [
   {
     name: "Blue",
     background: "#181818",
+    text: "#C0C0C0",
+    meta: "#666666",
     grade4: "#4F83BF",
     grade3: "#416895",
     grade2: "#344E6C",
@@ -74,6 +90,8 @@ const themes = [
   {
     name: "Panda🐼",
     background: "#2B2C2F",
+    text: "#E6E6E6",
+    meta: "#676B79",
     grade4: "#FF4B82",
     grade3: "#19f9d8",
     grade2: "#6FC1FF",
@@ -94,6 +112,8 @@ const themes = [
   {
     name: "Pink",
     background: "#ffffff",
+    text: "#000000",
+    meta: "#666666",
     grade4: "#61185f",
     grade3: "#a74aa8",
     grade2: "#ca5bcc",
@@ -103,6 +123,8 @@ const themes = [
   {
     name: "YlGnBu",
     background: "#ffffff",
+    text: "#000000",
+    meta: "#666666",
     grade4: "#253494",
     grade3: "#2c7fb8",
     grade2: "#41b6c4",
@@ -112,6 +134,8 @@ const themes = [
   {
     name: "Solarized Dark",
     background: "#002b36",
+    text: "#93a1a1",
+    meta: "#586e75",
     grade4: "#d33682",
     grade3: "#b58900",
     grade2: "#2aa198",
