@@ -52,7 +52,7 @@ const HeatmapCalendar = ({ data, selectedTheme }) => {
     if (value === 0) return selectedTheme.grade0; // No contributions
     if (value <= 3) return selectedTheme.grade1; // Low contributions
     if (value <= 7) return selectedTheme.grade2; // Moderate contributions
-    if (value <= 11) return selectedTheme.grade3; // High contributions
+    if (value <= 10) return selectedTheme.grade3; // High contributions
     return selectedTheme.grade4; // Very high contributions
   };
 

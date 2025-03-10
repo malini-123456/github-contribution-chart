@@ -37,6 +37,7 @@ function App() {
     setSelectedTheme(selectedTheme);
   }, [themeName]);
 
+  // handle copy function
   const handleCopyToClipboard = async () => {
     const element = document.querySelector("#canvas-container");
     if (!element) return;
@@ -59,6 +60,20 @@ function App() {
     }
   };
 
+  // handle download function
+  const handleDownload = async () => {
+    const element = document.querySelector("#canvas-container");
+    if (!element) return;
+
+    const canvas = await html2canvas(element);
+    const image = canvas.toDataURL("image/png");
+
+    const link = document.createElement("a");
+    link.href = image;
+    link.download = `${username}_contributions.png`;
+    link.click();
+  };
+
   return (
     <>
       <Header />
@@ -66,9 +81,12 @@ function App() {
         <div id="image" className="mx-auto max-w-40 pt-10 sm:max-w-56">
           <img src={logo} alt="website logo" className="w-full" />
         </div>
-        <h1 className="pb-10 text-center text-2xl font-semibold text-white sm:text-4xl">
+        <h1 className="text-center text-2xl font-semibold text-white sm:text-4xl">
           GitHub Contribution Chart Generator
         </h1>
+        <h4 className="pb-10 pt-4 text-center text-xl text-white">
+          Generate your last one year contributions in one image!
+        </h4>
         <div className="flex justify-center sm:mx-auto sm:max-w-md">
           <Input
             className="min-w min-w-40 flex-grow rounded-l-lg border p-2 outline-none"
@@ -142,6 +160,7 @@ function App() {
             <button
               type="button"
               className="flex items-center rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600"
+              onClick={handleDownload}
             >
               ⬇️ Download
             </button>
