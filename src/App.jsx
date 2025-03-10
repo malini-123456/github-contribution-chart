@@ -37,41 +37,58 @@ function App() {
     setSelectedTheme(selectedTheme);
   }, [themeName]);
 
-  // handle copy function
-  const handleCopyToClipboard = async () => {
+  const captureFullHeatmap = async () => {
     const element = document.querySelector("#canvas-container");
     if (!element) return;
 
+    // Temporarily expand the container
+    const originalOverflow = element.style.overflow;
+    element.style.overflow = "visible";
+
+    const canvas = await html2canvas(element, {
+      scrollX: 0,
+      scrollY: -window.scrollY, // Capture full content
+      windowWidth: element.scrollWidth, // Full width
+      windowHeight: element.scrollHeight, // Full height
+      backgroundColor: `${selectedTheme.background}`,
+    });
+
+    // Restore original overflow after capture
+    element.style.overflow = originalOverflow;
+
+    return canvas;
+  };
+
+  // handle copy function
+  const handleCopyToClipboard = async () => {
     try {
-      const canvas = await html2canvas(element, {
-        backgroundColor: `${selectedTheme.background}`,
-      });
+      const canvas = await captureFullHeatmap();
       const blob = await new Promise((resolve) =>
         canvas.toBlob(resolve, "image/png"),
       );
-
       await navigator.clipboard.write([
         new ClipboardItem({ "image/png": blob }),
       ]);
-      alert("Chart copied to clipboard! 📋✨");
+      alert("Image copied to clipboard! 📋✨");
     } catch (error) {
       console.error("Error copying image:", error);
-      alert("Failed to copy chart. Please try again.");
+      alert("Failed to copy Image.");
     }
   };
 
   // handle download function
   const handleDownload = async () => {
-    const element = document.querySelector("#canvas-container");
-    if (!element) return;
+    try {
+      const canvas = await captureFullHeatmap();
+      const image = canvas.toDataURL("image/png");
 
-    const canvas = await html2canvas(element);
-    const image = canvas.toDataURL("image/png");
-
-    const link = document.createElement("a");
-    link.href = image;
-    link.download = `${username}_contributions.png`;
-    link.click();
+      const link = document.createElement("a");
+      link.href = image;
+      link.download = `${username}_contributions.png`;
+      link.click();
+    } catch (error) {
+      console.error("Error downloading image:", error);
+    }
   };
 
   return (
