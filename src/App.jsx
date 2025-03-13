@@ -101,7 +101,7 @@ function App() {
         <h1 className="text-center text-2xl font-semibold text-white sm:text-4xl">
           GitHub Contribution Chart Generator
         </h1>
-        <h4 className="pb-10 pt-4 text-center text-xl text-white">
+        <h4 className="pb-10 pt-4 text-center text-xs font-light text-white sm:text-lg">
           Generate your last one year contributions in one image!
         </h4>
         <div className="flex justify-center sm:mx-auto sm:max-w-md">
