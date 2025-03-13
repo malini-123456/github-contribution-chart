@@ -2,6 +2,12 @@
 
 The GitHub Contribution Chart Generator is a web application that allows users to create a customized visualization of their GitHub contribution history. By generating an image of all your GitHub contributions for last one year, you can share your coding activity on social media or personal websites.
 
+<p align="center">
+   <img src="https://img.shields.io/npm/v/react" alt="NPM Version" />
+   <img src="https://img.shields.io/github/license/mrnikhilsingh/github-contribution-chart" alt="GitHub License" />
+   <img src="https://img.shields.io/github/stars/mrnikhilsingh/github-contribution-chart" alt="GitHub Repo stars" />
+</p>
+
 ## Installation
 
 To run the application locally, follow these steps:

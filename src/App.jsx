@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import HeatmapCalender from "./components/HeatmapCalender";
 import fetchYearlyContributions from "./components/API/api";
-import { Header } from "./components/Header";
 import { Input } from "./components/Input";
 import themes from "./components/Theme/themes";
 import loadingGif from "../src/assets/images/loading.gif";
@@ -93,7 +92,6 @@ function App() {
 
   return (
     <>
-      <Header />
       <main className="mx-auto min-h-screen w-full bg-[#202c37] px-4 font-poppins">
         <div id="image" className="mx-auto max-w-40 pt-10 sm:max-w-56">
           <img src={logo} alt="website logo" className="w-full" />
