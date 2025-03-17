@@ -8,6 +8,7 @@ import loadingGif from "../src/assets/images/loading.gif";
 import logo from "../src/assets/images/logo.png";
 import SelectThemes from "./components/SelectTheme";
 import html2canvas from "html2canvas";
+import { ToastContainer, toast } from "react-toastify";
 
 function App() {
   const [username, setUsername] = useState("");
@@ -16,6 +17,18 @@ function App() {
   const [error, setError] = useState("");
   const [themeName, setThemeName] = useState("GitHub");
   const [selectedTheme, setSelectedTheme] = useState("");
+
+  const notify = () =>
+    toast.success("Image Copied!", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
 
   const handleFetchData = async () => {
     setLoading(true);
@@ -68,7 +81,7 @@ function App() {
       await navigator.clipboard.write([
         new ClipboardItem({ "image/png": blob }),
       ]);
-      alert("Image copied to clipboard! 📋✨");
+      notify();
     } catch (error) {
       console.error("Error copying image:", error);
       alert("Failed to copy Image.");
@@ -160,6 +173,7 @@ function App() {
         >
           <HeatmapCalender data={contributions} selectedTheme={selectedTheme} />
         </div>
+        <ToastContainer />
       </main>
       {contributions.length !== 0 && (
         <footer className="bg-[#202c37] py-8 text-center font-poppins">
@@ -180,6 +194,7 @@ function App() {
               ⬇️ Download
             </button>
           </div>
+          {/* <ToastContainer /> */}
         </footer>
       )}
     </>
